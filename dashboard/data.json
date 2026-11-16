@@ -1,0 +1,315 @@
+{
+  "project": "Experiment Lab",
+  "data_label": "Synthetic randomized product experiment \u2022 seed 418 \u2022 no real business outcomes",
+  "as_of": "2026-10-31",
+  "assignment_window": [
+    "2026-09-01",
+    "2026-10-15"
+  ],
+  "users": 12000,
+  "decision": "HOLD",
+  "decision_reason": "Activation improves, but the support-contact guardrail fails. Simplify onboarding and rerun a preregistered experiment.",
+  "primary": {
+    "control_rate": 0.2747307373653687,
+    "treatment_rate": 0.30997485331098074,
+    "absolute_lift": 0.03524411594561205,
+    "relative_lift": 0.12828603120130805,
+    "ci_low": 0.01897831108510146,
+    "ci_high": 0.05150992080612265,
+    "p_value": 2.1911839080096695e-05,
+    "method": "large-sample two-proportion z test; unpooled 95% Wald CI",
+    "metric": "7-day activation (ITT)",
+    "control_n": 6035,
+    "treatment_n": 5965,
+    "control_successes": 1658,
+    "treatment_successes": 1849
+  },
+  "guardrail": {
+    "control_rate": 0.037613918806959405,
+    "treatment_rate": 0.060184409052808044,
+    "absolute_lift": 0.02257049024584864,
+    "relative_lift": 0.600056866227738,
+    "ci_low": 0.014858947109164657,
+    "ci_high": 0.03028203338253262,
+    "p_value": 9.694930080091067e-09,
+    "method": "large-sample two-proportion z test; unpooled 95% Wald CI",
+    "metric": "7-day support contact (ITT)",
+    "maximum_acceptable_increase": 0.005,
+    "passed": false,
+    "decision_rule": "95% CI upper bound <= +0.5 percentage points"
+  },
+  "srm": {
+    "chi_square": 0.4083333333333333,
+    "p_value": 0.5228166539190888,
+    "threshold": 0.001,
+    "passed": true
+  },
+  "variants": [
+    {
+      "variant": "control",
+      "assigned_users": 6035,
+      "exposed": 5763,
+      "workspace_created": 3890,
+      "activated_7d": 1658,
+      "support_7d": 227,
+      "primary_mature_users": 6035,
+      "retained_d7": 1369,
+      "eligible_d7": 6035,
+      "retained_d30": 593,
+      "eligible_d30": 4217
+    },
+    {
+      "variant": "treatment",
+      "assigned_users": 5965,
+      "exposed": 5690,
+      "workspace_created": 3843,
+      "activated_7d": 1849,
+      "support_7d": 359,
+      "primary_mature_users": 5965,
+      "retained_d7": 1474,
+      "eligible_d7": 5965,
+      "retained_d30": 640,
+      "eligible_d30": 4059
+    }
+  ],
+  "funnel": [
+    {
+      "stage": "Assigned",
+      "control": 6035,
+      "treatment": 5965
+    },
+    {
+      "stage": "Exposed",
+      "control": 5763,
+      "treatment": 5690
+    },
+    {
+      "stage": "Created workspace",
+      "control": 3890,
+      "treatment": 3843
+    },
+    {
+      "stage": "Activated within 7 days",
+      "control": 1658,
+      "treatment": 1849
+    }
+  ],
+  "cohorts": [
+    {
+      "cohort_week": "2026-W35",
+      "variant": "control",
+      "users": 818,
+      "eligible_d7": 818,
+      "retained_d7": 196,
+      "d7_rate": 0.2396088019559902,
+      "eligible_d30": 818,
+      "retained_d30": 120,
+      "d30_rate": 0.1466992665036675
+    },
+    {
+      "cohort_week": "2026-W35",
+      "variant": "treatment",
+      "users": 784,
+      "eligible_d7": 784,
+      "retained_d7": 183,
+      "d7_rate": 0.23341836734693877,
+      "eligible_d30": 784,
+      "retained_d30": 114,
+      "d30_rate": 0.14540816326530612
+    },
+    {
+      "cohort_week": "2026-W36",
+      "variant": "control",
+      "users": 941,
+      "eligible_d7": 941,
+      "retained_d7": 192,
+      "d7_rate": 0.20403825717321997,
+      "eligible_d30": 941,
+      "retained_d30": 139,
+      "d30_rate": 0.14771519659936239
+    },
+    {
+      "cohort_week": "2026-W36",
+      "variant": "treatment",
+      "users": 928,
+      "eligible_d7": 928,
+      "retained_d7": 231,
+      "d7_rate": 0.24892241379310345,
+      "eligible_d30": 928,
+      "retained_d30": 144,
+      "d30_rate": 0.15517241379310345
+    },
+    {
+      "cohort_week": "2026-W37",
+      "variant": "control",
+      "users": 947,
+      "eligible_d7": 947,
+      "retained_d7": 215,
+      "d7_rate": 0.22703273495248152,
+      "eligible_d30": 947,
+      "retained_d30": 137,
+      "d30_rate": 0.1446673706441394
+    },
+    {
+      "cohort_week": "2026-W37",
+      "variant": "treatment",
+      "users": 922,
+      "eligible_d7": 922,
+      "retained_d7": 245,
+      "d7_rate": 0.26572668112798264,
+      "eligible_d30": 922,
+      "retained_d30": 159,
+      "d30_rate": 0.17245119305856832
+    },
+    {
+      "cohort_week": "2026-W38",
+      "variant": "control",
+      "users": 955,
+      "eligible_d7": 955,
+      "retained_d7": 200,
+      "d7_rate": 0.2094240837696335,
+      "eligible_d30": 955,
+      "retained_d30": 119,
+      "d30_rate": 0.12460732984293194
+    },
+    {
+      "cohort_week": "2026-W38",
+      "variant": "treatment",
+      "users": 914,
+      "eligible_d7": 914,
+      "retained_d7": 214,
+      "d7_rate": 0.23413566739606126,
+      "eligible_d30": 914,
+      "retained_d30": 140,
+      "d30_rate": 0.15317286652078774
+    },
+    {
+      "cohort_week": "2026-W39",
+      "variant": "control",
+      "users": 942,
+      "eligible_d7": 942,
+      "retained_d7": 217,
+      "d7_rate": 0.23036093418259024,
+      "eligible_d30": 556,
+      "retained_d30": 78,
+      "d30_rate": 0.14028776978417265
+    },
+    {
+      "cohort_week": "2026-W39",
+      "variant": "treatment",
+      "users": 923,
+      "eligible_d7": 923,
+      "retained_d7": 235,
+      "d7_rate": 0.25460455037919827,
+      "eligible_d30": 511,
+      "retained_d30": 83,
+      "d30_rate": 0.162426614481409
+    },
+    {
+      "cohort_week": "2026-W40",
+      "variant": "control",
+      "users": 911,
+      "eligible_d7": 911,
+      "retained_d7": 224,
+      "d7_rate": 0.24588364434687157,
+      "eligible_d30": 0,
+      "retained_d30": 0,
+      "d30_rate": null
+    },
+    {
+      "cohort_week": "2026-W40",
+      "variant": "treatment",
+      "users": 951,
+      "eligible_d7": 951,
+      "retained_d7": 238,
+      "d7_rate": 0.2502628811777077,
+      "eligible_d30": 0,
+      "retained_d30": 0,
+      "d30_rate": null
+    },
+    {
+      "cohort_week": "2026-W41",
+      "variant": "control",
+      "users": 521,
+      "eligible_d7": 521,
+      "retained_d7": 125,
+      "d7_rate": 0.2399232245681382,
+      "eligible_d30": 0,
+      "retained_d30": 0,
+      "d30_rate": null
+    },
+    {
+      "cohort_week": "2026-W41",
+      "variant": "treatment",
+      "users": 543,
+      "eligible_d7": 543,
+      "retained_d7": 128,
+      "d7_rate": 0.23572744014732966,
+      "eligible_d30": 0,
+      "retained_d30": 0,
+      "d30_rate": null
+    }
+  ],
+  "quality": {
+    "raw_events": 27796,
+    "clean_events": 27355,
+    "duplicates_removed": 437,
+    "quarantined_events": 4,
+    "primary_window_mature": true,
+    "assignments_unique": true,
+    "reconciliation_passed": true
+  },
+  "segments": [
+    {
+      "segment": "growing_team",
+      "variant": "control",
+      "users": 2033,
+      "activated_7d": 552
+    },
+    {
+      "segment": "growing_team",
+      "variant": "treatment",
+      "users": 1976,
+      "activated_7d": 627
+    },
+    {
+      "segment": "small_team",
+      "variant": "control",
+      "users": 2012,
+      "activated_7d": 551
+    },
+    {
+      "segment": "small_team",
+      "variant": "treatment",
+      "users": 2008,
+      "activated_7d": 603
+    },
+    {
+      "segment": "solo",
+      "variant": "control",
+      "users": 1990,
+      "activated_7d": 555
+    },
+    {
+      "segment": "solo",
+      "variant": "treatment",
+      "users": 1981,
+      "activated_7d": 619
+    }
+  ],
+  "architecture": [
+    "Seeded assignments + event log",
+    "Contract validation + deduplication",
+    "SQLite user outcomes",
+    "Experiment + retention marts",
+    "Decision dashboard"
+  ],
+  "analysis_policy": {
+    "primary_alpha": 0.05,
+    "srm_alpha": 0.001,
+    "practical_lift_threshold": 0.015,
+    "guardrail_limit": 0.005,
+    "unit": "randomized user",
+    "retention": "Exact-day activity; mature users only; ITT denominator"
+  }
+}

@@ -1,0 +1,28 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>analysis-plan · experiment-lab</title><link rel="stylesheet" href="../../assets/style.css"><body><main class="doc-page"><a href="../../index.html#experiment-lab/evidence">← Back to project evidence</a><h1>Analysis plan v1</h1>
+<p>This is the design specification for a <strong>simulated</strong> experiment. It is supplied with the generator for reproducibility; it is not evidence that a real experiment was prospectively registered.</p>
+<h2>Hypothesis and unit</h2>
+<p>Guided onboarding increases the probability that a new user reaches a first useful result during days 0–6 after assignment. Randomize at user level, 50/50, once per user. The simulation assumes independent users, no cross-variant contamination, complete tracking, and no interference. Real collaborative workspaces might require account-level randomization and cluster-aware analysis instead.</p>
+<h2>Eligibility and timing</h2>
+<ul>
+<li>Enroll 12,000 new users across 2026-09-01 through 2026-10-15.</li>
+<li>Analyze once as of 2026-10-31, after all seven-day primary windows mature.</li>
+<li>Keep assigned users who were never exposed (intent to treat).</li>
+<li>D7/D30 retention is exploratory exact-day active-user retention; use only users with at least that many observed days. Publish both total cohort and eligible count.</li>
+</ul>
+<h2>Primary and guardrail</h2>
+<ul>
+<li>Primary: first_value on days 0–6 divided by all assigned users, once the primary windows mature.</li>
+<li>Primary statistical criterion: two-sided 95% CI for treatment minus control entirely above zero.</li>
+<li>Practical criterion: observed absolute gain at least 1.5 percentage points. This is a decision threshold; it is distinct from the planning MDE.</li>
+<li>Guardrail: any support_contact on days 0–6 divided by all assigned users. The two-sided 95% CI upper bound for the increase must be at most +0.5 pp. This is a conservative non-inferiority gate, not a test that &#x27;no significant difference&#x27; proves safety.</li>
+<li>SRM gate: allocation chi-square p ≥ 0.001.</li>
+<li>Launch only when all gates pass. Otherwise hold; identify which gate failed.</li>
+</ul>
+<h2>Sample size illustration</h2>
+<p>For baseline activation 28%, a planning minimum detectable difference of 2.5 pp, 80% power, and two-sided alpha 0.05, a simple equal-arm normal approximation gives:</p>
+<p><code>ceil(2 × (1.96 + 0.8416)^2 × 0.28 × 0.72 / 0.025^2) ≈ 5,064 users per arm.</code></p>
+<p>The 12,000-user simulation exceeds this approximation. A real experiment needs a full power calculation, separate guardrail power assessment, traffic estimates, clustering adjustment where relevant, and an explicit stopping date. This sample may be too small to certify a very tight support guardrail even when its true effect is zero.</p>
+<h2>Inference</h2>
+<p>Use an unpooled standard error for the absolute-rate-difference 95% Wald interval; use the pooled null standard error for the two-sided z-test p-value. The normal approximation is appropriate for these large success and failure counts. Sparse events require a different interval/test. The primary test is singular; segment slices and retention are exploratory and are not used to make post-hoc significance claims.</p>
+<h2>Exclusions and limitations</h2>
+<p>Exclude only invalid events from metric construction; do not remove randomized users due to bad or absent exposure. The generator intentionally adds duplicate event replays and contract violations for testing. This simulation cannot establish a real product effect, a causal explanation for support demand, revenue impact, seasonal stability, or external validity. A prelaunch instrumentation check, privacy review, and product-owner review are proposed operational steps, not completed production work.</p></main></body></html>

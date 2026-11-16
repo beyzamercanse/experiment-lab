@@ -1,0 +1,57 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>architecture · experiment-lab</title><link rel="stylesheet" href="../../assets/style.css"><body><main class="doc-page"><a href="../../index.html#experiment-lab/evidence">← Back to project evidence</a><h1>Architecture and project design</h1>
+<h2>Implemented local system</h2>
+<pre><code>flowchart LR
+    A[Seeded assignment generator] --&gt; R[Raw assignments CSV]
+    B[Seeded event generator] --&gt; E[Raw event CSV]
+    R --&gt; V[Contract validation]
+    E --&gt; V
+    V --&gt; Q[Quarantine invalid events]
+    V --&gt; D[Deduplicate by event ID]
+    D --&gt; S[(SQLite clean events)]
+    R --&gt; U[User outcome mart: one row per assigned user]
+    S --&gt; U
+    U --&gt; X[Variant summary + SRM + inference]
+    U --&gt; C[Weekly retention cohorts + maturity denominators]
+    X --&gt; J[Versioned dashboard JSON]
+    C --&gt; J
+    J --&gt; P[Decision dashboard + case study]</code></pre>
+<p><strong>Runtime:</strong> Python 3.9+ and SQLite. The only external system needed for CI is GitHub Actions after publication. The portfolio renderer is separate from the data pipeline and reads the exported JSON; it does not invent chart values.</p>
+<h2>Grains and contracts</h2>
+<p>| Object | Grain / key | Contract |</p>
+<p>|---|---|---|</p>
+<p>| assignments | one randomized user / user_id | unique user, control or treatment, assignment date and segment present |</p>
+<p>| events | one event / event_id | known event type, user references an assignment; repeated event IDs ignored |</p>
+<p>| quarantine | one rejected input event | reason and event ID retained; not silently discarded |</p>
+<p>| user_outcomes | one randomized user / user_id | LEFT JOIN preserves non-exposed users; binary outcomes use MAX |</p>
+<p>| variant_summary | one variant | outcome counts and observation eligibility; assigned-user denominator |</p>
+<p>| retention_cohorts | assignment week × variant | separate D7/D30 eligible counts and successes; zero eligible gives null rate |</p>
+<p>Raw fixture creation guarantees ISO dates; this local generator is not an arbitrary external-feed parser. A production contract must also reject malformed timestamps, conflicting duplicates, events before assignment, and identity changes. These are explicitly out of scope for the fixture ingestion.</p>
+<h2>Failure and correctness behaviors</h2>
+<ul>
+<li>Primary-key assignment validation and foreign keys stop contradictory user identities.</li>
+<li>Replayed event IDs are removed before SQL; invalid type and unknown-user events are quarantined.</li>
+<li>A left join followed by binary aggregation prevents selection and join-multiplicity mistakes.</li>
+<li>A complete primary outcome window is required before a launch recommendation.</li>
+<li>A 50/50 allocation SRM p-value below 0.001 blocks launch. SRM passing is necessary but not sufficient for trustworthy randomization.</li>
+<li>Raw count equals accepted + duplicate + rejected count. The audit is exported with every dashboard build.</li>
+<li>Rerunning produces identical analytical JSON. There is no streaming, backfill orchestrator, or production monitoring claim.</li>
+</ul>
+<h2>Proposed production extension — not deployed</h2>
+<pre><code>flowchart LR
+    SDK[Product SDK + assignment service] --&gt; B[Cloud object storage: append-only event files]
+    B --&gt; W[BigQuery raw tables partitioned by event date]
+    W --&gt; DBT[dbt staging + user outcome marts + contracts]
+    DBT --&gt; BI[Looker / Power BI certified metrics]
+    DBT --&gt; ST[Python statistical analysis job]
+    OR[Dagster schedules + retries + backfills] --&gt; W
+    OR --&gt; DBT
+    ST --&gt; RE[Reviewed decision report]</code></pre>
+<p>The architecture uses one warehouse and one orchestrator. A real implementation would add event-time/ingest-time fields, assignment-service logs independent of exposure, a late-arrival policy, consent-aware user identifiers, model versioning, a metric owner, and an alert for assignment imbalance. Load source partitions idempotently and rerun affected experiment windows when late events arrive. PII is unnecessary for this portfolio.</p>
+<h2>Acceptance criteria</h2>
+<ul>
+<li>A fresh checkout reproduces the decision and interval with one Python command.</li>
+<li>All meaningful tests pass, including a biased allocation and immature retention cohort.</li>
+<li>Every displayed result is labeled synthetic and can be traced to SQL and source fields.</li>
+<li>Reviewers can explain the decision without reading the whole repository.</li>
+<li>Any production extension is separately marked, measured, and validated before becoming a CV claim.</li>
+</ul></main></body></html>
