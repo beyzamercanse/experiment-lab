@@ -20,7 +20,7 @@ flowchart LR
     J --> P[Decision dashboard + case study]
 ```
 
-**Runtime:** Python 3.9+ and SQLite. The only external system needed for CI is GitHub Actions after publication. The portfolio renderer is separate from the data pipeline and reads the exported JSON; it does not invent chart values.
+**Runtime:** Python 3.9+ and SQLite. The only external system needed for CI is GitHub Actions after publication. The dashboard is separate from the pipeline and only reads the exported JSON; no chart value is typed in by hand.
 
 ## Grains and contracts
 
@@ -59,12 +59,12 @@ flowchart LR
     ST --> RE[Reviewed decision report]
 ```
 
-The architecture uses one warehouse and one orchestrator. A real implementation would add event-time/ingest-time fields, assignment-service logs independent of exposure, a late-arrival policy, consent-aware user identifiers, model versioning, a metric owner, and an alert for assignment imbalance. Load source partitions idempotently and rerun affected experiment windows when late events arrive. PII is unnecessary for this portfolio.
+The architecture uses one warehouse and one orchestrator. A real implementation would add event-time/ingest-time fields, assignment-service logs independent of exposure, a late-arrival policy, consent-aware user identifiers, model versioning, a metric owner, and an alert for assignment imbalance. Load source partitions idempotently and rerun affected experiment windows when late events arrive. None of this needs personal data.
 
 ## Acceptance criteria
 
 - A fresh checkout reproduces the decision and interval with one Python command.
 - All meaningful tests pass, including a biased allocation and immature retention cohort.
-- Every displayed result is labeled synthetic and can be traced to SQL and source fields.
-- Reviewers can explain the decision without reading the whole repository.
-- Any production extension is separately marked, measured, and validated before becoming a CV claim.
+- Every displayed result is labelled as simulated and can be traced to SQL and source fields.
+- The decision can be explained from the README and case study without reading the code.
+- `scripts/robustness.py` reproduces the bootstrap and power results from the same database.

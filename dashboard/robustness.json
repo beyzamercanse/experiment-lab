@@ -1,0 +1,279 @@
+{
+  "source": "scripts/robustness.py on the seed-418 simulation",
+  "interval_check": {
+    "activation": {
+      "wald": [
+        0.01897831108510146,
+        0.05150992080612265
+      ],
+      "bootstrap": [
+        0.018520869807375395,
+        0.05151140559644048
+      ]
+    },
+    "support": {
+      "wald": [
+        0.014858947109164657,
+        0.03028203338253262
+      ],
+      "bootstrap": [
+        0.015093714994468568,
+        0.030135945598148813
+      ]
+    },
+    "resamples": 2000,
+    "seed": 2718
+  },
+  "guardrail_power": {
+    "control_support_rate": 0.037613918806959405,
+    "margin": 0.005,
+    "users_per_arm": 6000.0,
+    "power_if_harmless": 0.30133547444233055,
+    "simulated_pass_rate_if_harmless": 0.301,
+    "simulation_runs": 1000,
+    "users_per_arm_for_80pct_power": 22730,
+    "margin_with_80pct_power_at_current_size": 0.00973177743172721,
+    "curve": [
+      {
+        "users_per_arm": 1000,
+        "power_if_harmless": 0.085
+      },
+      {
+        "users_per_arm": 1500,
+        "power_if_harmless": 0.1074
+      },
+      {
+        "users_per_arm": 2000,
+        "power_if_harmless": 0.1295
+      },
+      {
+        "users_per_arm": 2500,
+        "power_if_harmless": 0.1513
+      },
+      {
+        "users_per_arm": 3000,
+        "power_if_harmless": 0.1731
+      },
+      {
+        "users_per_arm": 3500,
+        "power_if_harmless": 0.1947
+      },
+      {
+        "users_per_arm": 4000,
+        "power_if_harmless": 0.2163
+      },
+      {
+        "users_per_arm": 4500,
+        "power_if_harmless": 0.2378
+      },
+      {
+        "users_per_arm": 5000,
+        "power_if_harmless": 0.2591
+      },
+      {
+        "users_per_arm": 5500,
+        "power_if_harmless": 0.2803
+      },
+      {
+        "users_per_arm": 6000,
+        "power_if_harmless": 0.3013
+      },
+      {
+        "users_per_arm": 6500,
+        "power_if_harmless": 0.3221
+      },
+      {
+        "users_per_arm": 7000,
+        "power_if_harmless": 0.3427
+      },
+      {
+        "users_per_arm": 7500,
+        "power_if_harmless": 0.3629
+      },
+      {
+        "users_per_arm": 8000,
+        "power_if_harmless": 0.3829
+      },
+      {
+        "users_per_arm": 8500,
+        "power_if_harmless": 0.4026
+      },
+      {
+        "users_per_arm": 9000,
+        "power_if_harmless": 0.4219
+      },
+      {
+        "users_per_arm": 9500,
+        "power_if_harmless": 0.4409
+      },
+      {
+        "users_per_arm": 10000,
+        "power_if_harmless": 0.4595
+      },
+      {
+        "users_per_arm": 10500,
+        "power_if_harmless": 0.4777
+      },
+      {
+        "users_per_arm": 11000,
+        "power_if_harmless": 0.4956
+      },
+      {
+        "users_per_arm": 11500,
+        "power_if_harmless": 0.5131
+      },
+      {
+        "users_per_arm": 12000,
+        "power_if_harmless": 0.5302
+      },
+      {
+        "users_per_arm": 12500,
+        "power_if_harmless": 0.5468
+      },
+      {
+        "users_per_arm": 13000,
+        "power_if_harmless": 0.5631
+      },
+      {
+        "users_per_arm": 13500,
+        "power_if_harmless": 0.5789
+      },
+      {
+        "users_per_arm": 14000,
+        "power_if_harmless": 0.5944
+      },
+      {
+        "users_per_arm": 14500,
+        "power_if_harmless": 0.6094
+      },
+      {
+        "users_per_arm": 15000,
+        "power_if_harmless": 0.624
+      },
+      {
+        "users_per_arm": 15500,
+        "power_if_harmless": 0.6382
+      },
+      {
+        "users_per_arm": 16000,
+        "power_if_harmless": 0.6519
+      },
+      {
+        "users_per_arm": 16500,
+        "power_if_harmless": 0.6653
+      },
+      {
+        "users_per_arm": 17000,
+        "power_if_harmless": 0.6783
+      },
+      {
+        "users_per_arm": 17500,
+        "power_if_harmless": 0.6909
+      },
+      {
+        "users_per_arm": 18000,
+        "power_if_harmless": 0.703
+      },
+      {
+        "users_per_arm": 18500,
+        "power_if_harmless": 0.7148
+      },
+      {
+        "users_per_arm": 19000,
+        "power_if_harmless": 0.7262
+      },
+      {
+        "users_per_arm": 19500,
+        "power_if_harmless": 0.7373
+      },
+      {
+        "users_per_arm": 20000,
+        "power_if_harmless": 0.7479
+      },
+      {
+        "users_per_arm": 20500,
+        "power_if_harmless": 0.7582
+      },
+      {
+        "users_per_arm": 21000,
+        "power_if_harmless": 0.7682
+      },
+      {
+        "users_per_arm": 21500,
+        "power_if_harmless": 0.7778
+      },
+      {
+        "users_per_arm": 22000,
+        "power_if_harmless": 0.7871
+      },
+      {
+        "users_per_arm": 22500,
+        "power_if_harmless": 0.796
+      },
+      {
+        "users_per_arm": 23000,
+        "power_if_harmless": 0.8046
+      },
+      {
+        "users_per_arm": 23500,
+        "power_if_harmless": 0.8129
+      },
+      {
+        "users_per_arm": 24000,
+        "power_if_harmless": 0.8209
+      },
+      {
+        "users_per_arm": 24500,
+        "power_if_harmless": 0.8286
+      },
+      {
+        "users_per_arm": 25000,
+        "power_if_harmless": 0.836
+      },
+      {
+        "users_per_arm": 25500,
+        "power_if_harmless": 0.8431
+      },
+      {
+        "users_per_arm": 26000,
+        "power_if_harmless": 0.85
+      },
+      {
+        "users_per_arm": 26500,
+        "power_if_harmless": 0.8566
+      },
+      {
+        "users_per_arm": 27000,
+        "power_if_harmless": 0.8629
+      },
+      {
+        "users_per_arm": 27500,
+        "power_if_harmless": 0.869
+      },
+      {
+        "users_per_arm": 28000,
+        "power_if_harmless": 0.8748
+      },
+      {
+        "users_per_arm": 28500,
+        "power_if_harmless": 0.8804
+      },
+      {
+        "users_per_arm": 29000,
+        "power_if_harmless": 0.8858
+      },
+      {
+        "users_per_arm": 29500,
+        "power_if_harmless": 0.891
+      },
+      {
+        "users_per_arm": 30000,
+        "power_if_harmless": 0.8959
+      }
+    ]
+  },
+  "conclusion": {
+    "hold_still_justified": true,
+    "guardrail_underpowered": true
+  }
+}

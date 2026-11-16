@@ -10,6 +10,8 @@ jobs:
           python-version: '3.11'
       - name: Build deterministic analysis
         run: python scripts/pipeline.py
+      - name: Robustness check (bootstrap + guardrail power)
+        run: python scripts/robustness.py
       - name: Validate statistics and data semantics
         run: python -m unittest discover -s tests -v
       - name: Check committed evidence is reproducible

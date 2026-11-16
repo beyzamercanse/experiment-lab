@@ -26,6 +26,12 @@ All periods are calendar dates in UTC. The fixture stores date-level events, so 
 - `cohorts`: week × variant rows, total users, `eligible_d7/d30`, `retained_d7/d30`, `d7_rate/d30_rate`. Preserve null as **Not mature**, never 0%.
 - `segments`: exploratory counts; no segment significance or causal-targeting claim.
 - `quality`: raw/clean/duplicate/rejected counts, primary maturity and reconciliation flags.
-- `architecture`, `analysis_policy`: compact metadata for the portfolio.
+- `architecture`, `analysis_policy`: metadata shown on the dashboard.
+
+`dashboard/robustness.json` (from `scripts/robustness.py`):
+
+- `interval_check`: Wald and percentile-bootstrap 95% intervals for activation and support, as fractions; resample count and seed.
+- `guardrail_power`: control support rate, margin, users per arm, analytic pass probability for a harmless treatment, the simulated pass rate, users per arm for 80% power, and the margin reachable with 80% power at the current size.
+- `conclusion`: whether HOLD survives the bootstrap and whether the guardrail is underpowered.
 
 A dashboard may filter descriptive cohort tables by variant/week. Do not re-label an overall experiment p-value as a filtered segment result. The overall launch decision uses the full registered sample.

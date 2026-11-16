@@ -1,40 +1,31 @@
-# Case study: a better activation rate is not enough
+# Case study: more activations, still a no
 
-**Evidence type:** deterministic synthetic experiment, not a client engagement. Generated from seed 418; analyzed as of 2026-10-31.
+Simulated experiment (seed 418), analysed as of 2026-10-31. The effects were built into the data, so this shows the method, not a real product result.
 
-## Decision
+## The question
 
-**HOLD: do not launch the current onboarding treatment.** The simulation improves activation while creating an unacceptable support burden. Investigate the confusing step and rerun a separately registered experiment.
+Guided workspace setup was meant to get new users to a first useful result within seven days. The product manager wanted to know whether to roll it out to everyone. The condition agreed up front: it must not create noticeably more support work.
 
-## Business question
+## What I found
 
-Would a guided workspace setup help new users reach their first useful result within seven days, without causing more support contacts? The product manager owns the launch decision; the analyst owns definitions, estimation, and limitations.
+- 12,000 users were randomized: 6,035 control and 5,965 treatment. Everyone had a complete seven-day window.
+- Activation went from 27.47% to 31.00%: **+3.52 pp**, 95% CI [1.90, 5.15] pp, p = 0.00002.
+- Support contacts went up **+2.26 pp**, 95% CI [1.49, 3.03] pp. The agreed limit was +0.50 pp on the upper bound, so the guardrail fails by a wide margin.
+- Allocation looks healthy (sample-ratio mismatch p = 0.5228).
+- The raw events reconcile: 27,796 = 27,355 accepted + 437 replays + 4 quarantined.
 
-## Measured findings
+**Decision: HOLD.** The flow works for activation, but something in it is confusing enough to send people to support. Shipping it would trade one problem for another.
 
-- Randomized users: 12,000; control 6,035, treatment 5,965. All have a complete seven-day outcome window.
-- Activation: 27.47% control versus 31.00% treatment.
-- Absolute lift: 3.52 percentage points; 95% interval [1.90, 5.15] pp; two-sided p=0.00002.
-- Support-contact increase: 2.26 pp; 95% interval [1.49, 3.03] pp. The allowed increase is 0.50 pp, and the upper bound must be below that threshold. The guardrail fails.
-- Sample-ratio mismatch p=0.5228; threshold 0.001. This allocation check passes, but cannot prove every aspect of randomization is valid.
-- Raw event audit: 27,796 = 27,355 accepted + 437 duplicate replays + 4 quarantined.
+## Why I trust the numbers
 
-## Why the analysis is defensible
+Every rate uses assigned users as the denominator, including the users who never saw onboarding. Events are deduplicated before they're joined to users, and each user collapses to one row, so repeated events can't inflate conversions. Retention only counts users old enough to have been observed for the full window. The most recent cohort shows "not mature" for D30 rather than a misleading zero.
 
-The randomized-user table drives every denominator. A user who never saw onboarding remains in the primary analysis. Events are deduplicated before joining; the per-user outcome mart prevents event multiplicity from inflating conversions. Retention excludes users whose observation window is immature and always displays eligible counts. Weekly cohorts report the mature subset; the last cohort's D30 result is not estimable.
+## What I'd do next
 
-## Actions and uncertainty
+1. Instrument each onboarding step and tag support tickets by reason. Right now the data shows *that* support went up, not *which step* caused it.
+2. Fix or remove the step the tickets point to.
+3. Before the rerun, agree the sample size and guardrail margin with the support team. [robustness.md](robustness.md) shows that at this sample size even a harmless change would pass the current guardrail only about 30% of the time.
 
-1. Instrument individual onboarding steps and qualitative support reasons before another test.
-2. Remove or simplify the step implicated by support investigation; this dataset does not identify a causal mechanism.
-3. Register the next test's sample size, primary metric, and guardrail before collecting its data.
+## Caveats
 
-The Wald confidence interval is an approximation appropriate to this large simulated sample, not a universal method for sparse counts. The data-generating process deliberately embeds a treatment effect and a harmful guardrail effect. This project proves an analysis workflow, not a real product lift, external validity, or revenue impact. Segments and retention are exploratory; no subgroup launch claims are supported. No repeated peeking or post-hoc stopping rule is used.
-
-## Five-slide narrative
-
-1. Decision: activation must improve without more support burden.
-2. Measurement: randomized-user grain, seven-day windows, event quality audit.
-3. Evidence: lift and uncertainty, plus guardrail deterioration.
-4. Recommendation: hold and redesign; avoid declaring a win from conversion alone.
-5. Next experiment: revised onboarding, registered metrics, fixed sample, reviewed tracking.
+The Wald interval is fine at these counts; the bootstrap in robustness.md agrees with it. Segment and retention views are exploratory and I don't draw subgroup conclusions from them. There was one analysis at a fixed date, with no peeking or early stopping.

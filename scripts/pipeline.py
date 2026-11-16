@@ -141,46 +141,37 @@ def run(root=ROOT):
 def write_case_study(root, d):
     p, g, q = d['primary'], d['guardrail'], d['quality']
     (root/'docs').mkdir(parents=True, exist_ok=True)
-    text = f'''# Case study: a better activation rate is not enough
+    text = f'''# Case study: more activations, still a no
 
-**Evidence type:** deterministic synthetic experiment, not a client engagement. Generated from seed 418; analyzed as of {d['as_of']}.
+Simulated experiment (seed 418), analysed as of {d['as_of']}. The effects were built into the data, so this shows the method, not a real product result.
 
-## Decision
+## The question
 
-**{d['decision']}: do not launch the current onboarding treatment.** The simulation improves activation while creating an unacceptable support burden. Investigate the confusing step and rerun a separately registered experiment.
+Guided workspace setup was meant to get new users to a first useful result within seven days. The product manager wanted to know whether to roll it out to everyone. The condition agreed up front: it must not create noticeably more support work.
 
-## Business question
+## What I found
 
-Would a guided workspace setup help new users reach their first useful result within seven days, without causing more support contacts? The product manager owns the launch decision; the analyst owns definitions, estimation, and limitations.
+- {d['users']:,} users were randomized: {p['control_n']:,} control and {p['treatment_n']:,} treatment. Everyone had a complete seven-day window.
+- Activation went from {p['control_rate']:.2%} to {p['treatment_rate']:.2%}: **{p['absolute_lift']*100:+.2f} pp**, 95% CI [{p['ci_low']*100:.2f}, {p['ci_high']*100:.2f}] pp, p = {p['p_value']:.5f}.
+- Support contacts went up **{g['absolute_lift']*100:+.2f} pp**, 95% CI [{g['ci_low']*100:.2f}, {g['ci_high']*100:.2f}] pp. The agreed limit was +0.50 pp on the upper bound, so the guardrail fails by a wide margin.
+- Allocation looks healthy (sample-ratio mismatch p = {d['srm']['p_value']:.4f}).
+- The raw events reconcile: {q['raw_events']:,} = {q['clean_events']:,} accepted + {q['duplicates_removed']:,} replays + {q['quarantined_events']} quarantined.
 
-## Measured findings
+**Decision: {d['decision']}.** The flow works for activation, but something in it is confusing enough to send people to support. Shipping it would trade one problem for another.
 
-- Randomized users: {d['users']:,}; control {p['control_n']:,}, treatment {p['treatment_n']:,}. All have a complete seven-day outcome window.
-- Activation: {p['control_rate']:.2%} control versus {p['treatment_rate']:.2%} treatment.
-- Absolute lift: {p['absolute_lift']*100:.2f} percentage points; 95% interval [{p['ci_low']*100:.2f}, {p['ci_high']*100:.2f}] pp; two-sided p={p['p_value']:.5f}.
-- Support-contact increase: {g['absolute_lift']*100:.2f} pp; 95% interval [{g['ci_low']*100:.2f}, {g['ci_high']*100:.2f}] pp. The allowed increase is 0.50 pp, and the upper bound must be below that threshold. The guardrail fails.
-- Sample-ratio mismatch p={d['srm']['p_value']:.4f}; threshold 0.001. This allocation check passes, but cannot prove every aspect of randomization is valid.
-- Raw event audit: {q['raw_events']:,} = {q['clean_events']:,} accepted + {q['duplicates_removed']:,} duplicate replays + {q['quarantined_events']} quarantined.
+## Why I trust the numbers
 
-## Why the analysis is defensible
+Every rate uses assigned users as the denominator, including the users who never saw onboarding. Events are deduplicated before they're joined to users, and each user collapses to one row, so repeated events can't inflate conversions. Retention only counts users old enough to have been observed for the full window. The most recent cohort shows "not mature" for D30 rather than a misleading zero.
 
-The randomized-user table drives every denominator. A user who never saw onboarding remains in the primary analysis. Events are deduplicated before joining; the per-user outcome mart prevents event multiplicity from inflating conversions. Retention excludes users whose observation window is immature and always displays eligible counts. Weekly cohorts report the mature subset; the last cohort's D30 result is not estimable.
+## What I'd do next
 
-## Actions and uncertainty
+1. Instrument each onboarding step and tag support tickets by reason. Right now the data shows *that* support went up, not *which step* caused it.
+2. Fix or remove the step the tickets point to.
+3. Before the rerun, agree the sample size and guardrail margin with the support team. [robustness.md](robustness.md) shows that at this sample size even a harmless change would pass the current guardrail only about 30% of the time.
 
-1. Instrument individual onboarding steps and qualitative support reasons before another test.
-2. Remove or simplify the step implicated by support investigation; this dataset does not identify a causal mechanism.
-3. Register the next test's sample size, primary metric, and guardrail before collecting its data.
+## Caveats
 
-The Wald confidence interval is an approximation appropriate to this large simulated sample, not a universal method for sparse counts. The data-generating process deliberately embeds a treatment effect and a harmful guardrail effect. This project proves an analysis workflow, not a real product lift, external validity, or revenue impact. Segments and retention are exploratory; no subgroup launch claims are supported. No repeated peeking or post-hoc stopping rule is used.
-
-## Five-slide narrative
-
-1. Decision: activation must improve without more support burden.
-2. Measurement: randomized-user grain, seven-day windows, event quality audit.
-3. Evidence: lift and uncertainty, plus guardrail deterioration.
-4. Recommendation: hold and redesign; avoid declaring a win from conversion alone.
-5. Next experiment: revised onboarding, registered metrics, fixed sample, reviewed tracking.
+The Wald interval is fine at these counts; the bootstrap in robustness.md agrees with it. Segment and retention views are exploratory and I don't draw subgroup conclusions from them. There was one analysis at a fixed date, with no peeking or early stopping.
 '''
     (root/'docs/case-study.md').write_text(text)
 
