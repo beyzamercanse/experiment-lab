@@ -1,4 +1,4 @@
-# Experiment Lab — would you ship this onboarding?
+# Experiment Lab: would you ship this onboarding?
 
 A reproducible product analytics case study that reaches an uncomfortable but defensible decision: **hold a treatment that improves activation because it worsens support demand.**
 
